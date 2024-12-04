@@ -1,15 +1,17 @@
-
-import './App.css'
-import { Button } from './components/Button'
-
+import { Dashboard } from "./pages/Dashboard"
+import { Signin } from "./pages/Signin"
+import { Signup } from "./pages/Signup"
+import { BrowserRouter, Routes, Route } from "react-router-dom"
 function App() {
 
   return (
-    <>
-      <Button text='Share' variant='primary' size='sm' onClick={() => {}}/>
-      <Button text='Add Item' variant='secondary' size='md' onClick={() => {}}/>
-      <Button text='Add Item' variant='secondary' size='lg' onClick={() => {}}/>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/signin" element={<Signin />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 
