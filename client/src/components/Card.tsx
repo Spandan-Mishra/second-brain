@@ -22,7 +22,10 @@ export const Card = ({ type, title, link }: CardProps) => {
           </div>
         </div>
         <div className="flex items-center">
-          <div className="text-gray-500 pr-2">
+          <div onClick={() => {
+            navigator.clipboard.writeText(link)
+            alert(`post link copied`)
+          }} className="text-gray-500 pr-2 cursor-pointer">
             <ShareIcon />
           </div>
           <div className="text-gray-500">

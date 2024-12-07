@@ -6,6 +6,8 @@ import { PlusIcon } from "../icons/PlusIcon"
 import { ShareIcon } from "../icons/ShareIcon"
 import { Sidebar } from "../components/Sidebar"
 import { useContent } from "../hooks/useContent"
+import axios from "axios"
+import { BACKEND_URL } from "../config"
 
 interface ContentProps {
   title: string;
@@ -26,6 +28,19 @@ export function Dashboard() {
   }, [content]);
 
 
+  const getShareLink = async () => {
+    const response = await axios.post(`${BACKEND_URL}/api/v1/brain/share`, {
+      share: true,
+    }, {
+      headers: {
+        "Authorization": localStorage.getItem("token"),
+      }
+    })
+
+    navigator.clipboard.writeText(response.data.hash);
+    alert(`Shareable hash copied`);
+  }
+
   return (
     <div>
       <Sidebar />
@@ -36,7 +51,7 @@ export function Dashboard() {
             onClick={() => {
               setModalOpen(true)
             }} />
-          <Button variant="secondary" text="Share" startIcon={ShareIcon()} />
+          <Button variant="secondary" text="Share" startIcon={ShareIcon()} onClick={getShareLink} />
         </div>
         <div className="flex flex-wrap gap-4">
           {content.map(({ title, type, link }: ContentProps) =>
