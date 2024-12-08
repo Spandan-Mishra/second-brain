@@ -17,16 +17,12 @@ interface ContentProps {
 
 export function Dashboard() {
   const [modalOpen, setModalOpen] = useState(false);
+  const [filter, setFilter] = useState("");
   const { content, refreshContent } = useContent();
 
   useEffect(() => {
     refreshContent();
   }, [modalOpen]);
-
-  useEffect(() => {
-    window.twttr?.widgets?.load();
-  }, [content]);
-
 
   const getShareLink = async () => {
     const response = await axios.post(`${BACKEND_URL}/api/v1/brain/share`, {
@@ -38,12 +34,12 @@ export function Dashboard() {
     })
 
     navigator.clipboard.writeText(response.data.hash);
-    alert(`Shareable hash copied`);
+    alert(`Shareable hash copied`)
   }
 
   return (
     <div>
-      <Sidebar />
+      <Sidebar setFilter={setFilter} />
       <div className="p-4 min-h-screen bg-gray-100 ml-72">
         <CreateContentModal open={modalOpen} onClose={() => { setModalOpen(false) }} />
         <div className="flex justify-end gap-4">
@@ -54,13 +50,24 @@ export function Dashboard() {
           <Button variant="secondary" text="Share" startIcon={ShareIcon()} onClick={getShareLink} />
         </div>
         <div className="flex flex-wrap gap-4">
-          {content.map(({ title, type, link }: ContentProps) =>
-            <Card
-              title={title}
-              type={type}
-              link={link}
-            />
-          )}
+          {filter
+            ? content.filter((entry: ContentProps) => entry.type === filter).map(({ title, type, link }: ContentProps, index) =>
+              <Card
+                key={index}
+                title={title}
+                link={link}
+                type={type}
+              />
+            )
+            : content.map(({ title, link, type }: ContentProps, index) =>
+              <Card
+                key={index}
+                title={title}
+                link={link}
+                type={type}
+              />
+            )
+          }
         </div>
       </div>
     </div>

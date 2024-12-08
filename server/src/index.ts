@@ -128,7 +128,6 @@ app.post("/api/v1/brain/share", userMiddleware, async (req, res) => {
   const share = req.body.share;
 
   if (share) {
-
     const existingLink = await LinkModel.findOne({
       userId: req.userId
     })
