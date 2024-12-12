@@ -18,12 +18,14 @@ export const useContent = () => {
 
   useEffect(() => {
     refreshContent();
-    let interval = setInterval(() => {
-      refreshContent();
-    }, 10 * 1000)
+    if (username) {
+      let interval = setInterval(() => {
+        refreshContent();
+      }, 10 * 1000)
 
-    return () => {
-      clearInterval(interval);
+      return () => {
+        clearInterval(interval);
+      }
     }
   }, [])
 
