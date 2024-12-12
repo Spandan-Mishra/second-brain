@@ -10,9 +10,10 @@ export const useBrain = (shareLink: String) => {
   const refreshContent = () => {
     axios.get(`${BACKEND_URL}/api/v1/brain/${shareLink}`)
       .then((response) => {
-        if (response.status === 200)
+        if (response.status === 200) {
           setUsername(response.data.username);
-        setContent(response.data.content)
+          setContent(response.data.content)
+        }
       })
   }
 
