@@ -4,6 +4,7 @@ import axios from "axios";
 
 export const useContent = () => {
   const [content, setContent] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const refreshContent = () => {
     axios.get(`${BACKEND_URL}/api/v1/brain/content`, {
@@ -13,6 +14,7 @@ export const useContent = () => {
     })
       .then((response) => {
         setContent(response.data.content)
+        setLoading(false);
       })
   }
 
@@ -27,5 +29,5 @@ export const useContent = () => {
     }
   }, [])
 
-  return { content, refreshContent }
+  return { content, refreshContent, loading }
 }

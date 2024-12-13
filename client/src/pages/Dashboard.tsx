@@ -8,6 +8,7 @@ import { Sidebar } from "../components/Sidebar"
 import { useContent } from "../hooks/useContent"
 import axios from "axios"
 import { BACKEND_URL } from "../config"
+import { Spinner } from "../animations/Spinner"
 
 interface ContentProps {
   title: string;
@@ -18,7 +19,7 @@ interface ContentProps {
 export function Dashboard() {
   const [modalOpen, setModalOpen] = useState(false);
   const [filter, setFilter] = useState("");
-  const { content, refreshContent } = useContent();
+  const { content, refreshContent, loading } = useContent();
 
   useEffect(() => {
     refreshContent();
@@ -38,39 +39,43 @@ export function Dashboard() {
   }
 
   return (
-    <div>
-      <Sidebar setFilter={setFilter} />
-      <div className="p-4 min-h-screen bg-gray-100 ml-72">
-        <CreateContentModal open={modalOpen} onClose={() => { setModalOpen(false) }} />
-        <div className="flex justify-end gap-4">
-          <Button variant="primary" text="Add content" startIcon={PlusIcon()}
-            onClick={() => {
-              setModalOpen(true)
-            }} />
-          <Button variant="secondary" text="Share" startIcon={ShareIcon()} onClick={getShareLink} />
+    <>
+      {loading ? <div className="h-screen flex justify-center items-center"><Spinner /></div>
+        : <div>
+          <Sidebar setFilter={setFilter} />
+          <div className="p-4 min-h-screen bg-gray-100 ml-72">
+            <CreateContentModal open={modalOpen} onClose={() => { setModalOpen(false) }} />
+            <div className="flex justify-end gap-4">
+              <Button variant="primary" text="Add content" startIcon={PlusIcon()}
+                onClick={() => {
+                  setModalOpen(true)
+                }} />
+              <Button variant="secondary" text="Share" startIcon={ShareIcon()} onClick={getShareLink} />
+            </div>
+            <div className="flex flex-wrap gap-4">
+              {filter
+                ? content.filter((entry: ContentProps) => entry.type === filter).map(({ title, type, link }: ContentProps, index) =>
+                  <Card
+                    key={index}
+                    title={title}
+                    link={link}
+                    type={type}
+                  />
+                )
+                : content.map(({ title, link, type }: ContentProps, index) =>
+                  <Card
+                    key={index}
+                    title={title}
+                    link={link}
+                    type={type}
+                  />
+                )
+              }
+            </div>
+          </div>
         </div>
-        <div className="flex flex-wrap gap-4">
-          {filter
-            ? content.filter((entry: ContentProps) => entry.type === filter).map(({ title, type, link }: ContentProps, index) =>
-              <Card
-                key={index}
-                title={title}
-                link={link}
-                type={type}
-              />
-            )
-            : content.map(({ title, link, type }: ContentProps, index) =>
-              <Card
-                key={index}
-                title={title}
-                link={link}
-                type={type}
-              />
-            )
-          }
-        </div>
-      </div>
-    </div>
+      }
+    </>
   )
 }
 
