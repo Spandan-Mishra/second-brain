@@ -33,35 +33,38 @@ export const CreateContentModal = ({ open, onClose }: { open: boolean; onClose: 
   }
 
   return <div>
-    {open && <div className="w-screen h-screen bg-slate-200 fixed top-0 left-0 opacity-60 flex justify-center">
-      <div className="flex flex-col justify-center">
-        <span className="bg-white opacity-100 p-4 rounded">
-          <div className="flex justify-end">
-            <div className="cursor-pointer" onClick={onClose}>
-              <CrossIcon />
+    {open && <>
+      <div className="w-screen h-screen bg-slate-200 fixed top-0 left-0 opacity-60 flex justify-center"></div>
+      <div className="fixed inset-2/4 flex justify-center">
+        <div className="flex flex-col justify-center">
+          <span className="bg-white opacity-100 p-4 rounded">
+            <div className="flex justify-end">
+              <div className="cursor-pointer" onClick={onClose}>
+                <CrossIcon />
+              </div>
             </div>
-          </div>
-          <div>
-            <Input reference={titleRef} placeholder={"Enter Title"} />
-            <Input reference={linkRef} placeholder={"Enter Link"} />
-          </div>
-          <div className="flex justify-center py-2 gap-3">
-            <Button variant={type === ContentType.Youtube ? "primary" : "secondary"}
-              onClick={() => {
-                setType(ContentType.Youtube)
-              }}
-              text="Youtube" />
-            <Button variant={type === ContentType.Twitter ? "primary" : "secondary"}
-              onClick={() => {
-                setType(ContentType.Twitter)
-              }}
-              text="Twitter" />
-          </div>
-          <div className="flex justify-center py-2">
-            <Button variant="primary" text="Submit" onClick={addContent} />
-          </div>
-        </span>
+            <div>
+              <Input reference={titleRef} placeholder={"Enter Title"} />
+              <Input reference={linkRef} placeholder={"Enter Link"} />
+            </div>
+            <div className="flex justify-center py-2 gap-3">
+              <Button variant={type === ContentType.Youtube ? "primary" : "secondary"}
+                onClick={() => {
+                  setType(ContentType.Youtube)
+                }}
+                text="Youtube" />
+              <Button variant={type === ContentType.Twitter ? "primary" : "secondary"}
+                onClick={() => {
+                  setType(ContentType.Twitter)
+                }}
+                text="Twitter" />
+            </div>
+            <div className="flex justify-center py-2">
+              <Button variant="primary" text="Submit" onClick={addContent} />
+            </div>
+          </span>
+        </div>
       </div>
-    </div>}
+    </>}
   </div>
 }
