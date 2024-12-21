@@ -8,8 +8,8 @@ import { useNavigate } from "react-router-dom";
 import { BrainIcon } from "../icons/BrainIcon";
 
 interface FormFields {
-  username: string;
-  password: string;
+  username?: string;
+  password?: string;
 }
 
 interface ErrorFormat {
@@ -18,7 +18,7 @@ interface ErrorFormat {
 }
 
 export const Signup = () => {
-  const [error, setError] = useState<Partial<FormFields>>({});
+  const [error, setError] = useState<FormFields>({});
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
@@ -45,7 +45,7 @@ export const Signup = () => {
       navigate('/signin');
     } catch (err: any) {
       if (err.response && err.response.status == 400) {
-        const errors: Partial<FormFields> = {};
+        const errors: FormFields = {};
 
         err.response.data.errors.forEach((e: ErrorFormat) => {
           errors[e.path] = e.message;
@@ -65,14 +65,11 @@ export const Signup = () => {
     </h1>
     <div className="bg-white rounded-xl border min-2-52 p-6 mb-20">
 
-      {["username", "password"].map((field) => {
+      {["username", "password"].map((field): keyof FormFields => {
         return (
-          <div key={field} className="flex flex-col justify-center items-center">
-            <Input
-              reference={field === "username" ? usernameRef : passwordRef}
-              placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
-            />
-            {error[field as keyof FormFields] && <p className="text-sm text-red-500 italic">{error[field as keyof FormFields]}</p>}
+          <div className="flex flex-col justify-center items-center">
+            <Input reference={field === "username" ? usernameRef : passwordRef} placeholder={field.charAt(0).toUpperCase() + field.slice(1)} />
+            {error[field] && <p className="text-sm text-red-500 italic">{error[field]}</p>}
           </div>
         )
       })}
