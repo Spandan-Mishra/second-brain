@@ -41,7 +41,7 @@ export const Card = ({ type, title, link }: CardProps, index: number) => {
         {type === "youtube" && <iframe className="w-full" src={link.replace("watch", "embed").replace("?v=", "/")} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen>
         </iframe>}
 
-        {type === "twitter" && <TwitterTweetEmbed tweetId={link.split('/status/').pop()} />}
+        {type === "twitter" && <TwitterTweetEmbed tweetId={link.split('/status/').pop() as string} />}
       </div>
     </div>
   </div>

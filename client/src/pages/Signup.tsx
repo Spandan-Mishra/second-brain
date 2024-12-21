@@ -69,7 +69,7 @@ export const Signup = () => {
         return (
           <div key={field} className="flex flex-col justify-center items-center">
             <Input
-              reference={field === "username" ? usernameRef : passwordRef}
+              ref={field === "username" ? usernameRef : passwordRef}
               placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
             />
             {error[field as keyof FormFields] && <p className="text-sm text-red-500 italic">{error[field as keyof FormFields]}</p>}

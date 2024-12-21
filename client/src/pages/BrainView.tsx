@@ -1,11 +1,7 @@
 
-import { useEffect, useState } from "react"
-import { Button } from "../components/Button"
+import { useState } from "react"
 import { Card } from "../components/Card"
 import { Sidebar } from "../components/Sidebar"
-import { useContent } from "../hooks/useContent"
-import axios from "axios"
-import { BACKEND_URL } from "../config"
 import { useBrain } from "../hooks/useBrain"
 import { useParams } from "react-router-dom"
 import { Spinner } from "../animations/Spinner"

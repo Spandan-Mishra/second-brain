@@ -8,8 +8,8 @@ import axios from "axios";
 import { BrainIcon } from "../icons/BrainIcon";
 
 export const Signin = () => {
-  const usernameRef = useRef<HTMLInputElement>();
-  const passowrdRef = useRef<HTMLInputElement>();
+  const usernameRef = useRef<HTMLInputElement>(null);
+  const passowrdRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
 
   const signin = async () => {
@@ -31,8 +31,8 @@ export const Signin = () => {
       <span className="text-purple-800"><BrainIcon size="lg" /></span> Second Brain
     </h1>
     <div className="bg-white rounded-xl border min-2-52 p-6 mb-20">
-      <Input reference={usernameRef} placeholder="Username" />
-      <Input reference={passowrdRef} placeholder="Password" />
+      <Input ref={usernameRef} placeholder="Username" />
+      <Input ref={passowrdRef} placeholder="Password" />
 
       <div className="flex justify-center pt-4">
         <Button variant="primary" text="Signin" fullWidth={true} onClick={signin} />

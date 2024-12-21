@@ -5,8 +5,12 @@ import { YoutubeIcon } from "../icons/YoutubeIcon"
 import { SidebarItem } from "./SidebarItem"
 
 interface mediaElement {
-  type: String,
+  type: string,
   icon: ReactElement
+}
+
+interface SideBarProps {
+  setFilter: (filter: string) => void
 }
 
 const mediaData: mediaElement[] = [
@@ -14,7 +18,7 @@ const mediaData: mediaElement[] = [
   { type: "Twitter", icon: <TwitterIcon /> }
 ]
 
-export const Sidebar = ({ setFilter }: any) => {
+export const Sidebar = ({ setFilter }: SideBarProps) => {
   return <div className="bg-white fixed top-0 left-0 h-screen w-72 p-4">
     <div className="flex items-center pb-8 text-2xl gap-2 cursor-pointer" onClick={() => { setFilter("") }}>
       <div className="text-purple-800" >

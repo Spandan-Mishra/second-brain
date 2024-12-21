@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { CrossIcon } from "../icons/CrossIcon";
 import { Input } from "./Input";
 import { Button } from "./Button";
@@ -11,8 +11,8 @@ enum ContentType {
 }
 
 export const CreateContentModal = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
-  const titleRef = useRef<HTMLInputElement>();
-  const linkRef = useRef<HTMLInputElement>();
+  const titleRef = useRef<HTMLInputElement>(null);
+  const linkRef = useRef<HTMLInputElement>(null);
   const [type, setType] = useState(ContentType.Youtube);
 
   const addContent = async () => {
@@ -44,8 +44,8 @@ export const CreateContentModal = ({ open, onClose }: { open: boolean; onClose: 
               </div>
             </div>
             <div>
-              <Input reference={titleRef} placeholder={"Enter Title"} />
-              <Input reference={linkRef} placeholder={"Enter Link"} />
+              <Input ref={titleRef} placeholder={"Enter Title"} />
+              <Input ref={linkRef} placeholder={"Enter Link"} />
             </div>
             <div className="flex justify-center py-2 gap-3">
               <Button variant={type === ContentType.Youtube ? "primary" : "secondary"}
