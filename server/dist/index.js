@@ -25,14 +25,29 @@ const config_1 = require("./config");
 const utils_1 = require("./utils");
 const middleware_1 = require("./middleware");
 const userSchema = zod_1.z.object({
-    "username": zod_1.z.string().min(3).max(10),
-    "password": zod_1.z.string().min(8).max(20),
+    "username": zod_1.z
+        .string()
+        .min(3, { message: "Username must be atleast 3 characters long" })
+        .max(10, { message: "Username cannot be more than 10 characters" }),
+    "password": zod_1.z
+        .string()
+        .min(8, { message: "Password must be alteast 8 characters long" })
+        .max(20, { message: "Password cannot be 20 characters" }),
 });
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use((0, cors_1.default)());
 app.post("/api/v1/brain/signup", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // zod validation 411
+    const parsedData = userSchema.safeParse(req.body);
+    if (!parsedData.success) {
+        const errors = parsedData.error.errors.map((entry) => ({
+            path: entry.path[0],
+            message: entry.message
+        }));
+        res.status(400).json({ errors });
+        return;
+    }
     // password hashing
     const username = req.body.username;
     const password = req.body.password;

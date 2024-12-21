@@ -12,8 +12,14 @@ import { hasher } from './utils';
 import { userMiddleware } from './middleware';
 
 const userSchema = z.object({
-  "username": z.string().min(3).max(10),
-  "password": z.string().min(8).max(20),
+  "username": z
+    .string()
+    .min(3, { message: "Username must be atleast 3 characters long" })
+    .max(10, { message: "Username cannot be more than 10 characters" }),
+  "password": z
+    .string()
+    .min(8, { message: "Password must be alteast 8 characters long" })
+    .max(20, { message: "Password cannot be 20 characters" }),
 })
 
 const app = express();
@@ -22,6 +28,17 @@ app.use(cors());
 
 app.post("/api/v1/brain/signup", async (req, res) => {
   // zod validation 411
+  const parsedData = userSchema.safeParse(req.body);
+
+  if (!parsedData.success) {
+    const errors = parsedData.error.errors.map((entry) => ({
+      path: entry.path[0],
+      message: entry.message
+    }))
+
+    res.status(400).json({ errors });
+    return;
+  }
 
   // password hashing
   const username = req.body.username;
